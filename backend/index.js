@@ -16,6 +16,3 @@ pool.query('SELECT * FROM user', (error, results) => {
     }
     console.log('Query results:', results);
 });
-
-// Don't forget to close the pool when done (if necessary)
-// pool.end();
