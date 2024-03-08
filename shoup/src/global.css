@@ -1,0 +1,126 @@
+.navbar {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-left: 35px;
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
+.logo-text {
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+  color: #6A87C0;
+}
+
+.menu-container {
+  flex: 1; 
+  margin-right: 60px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.menu-item {
+  font-family: 'Lato', sans-serif;
+  color: #6A87C0 !important;
+}
+
+.register-container {
+  margin-left: 20px;
+  margin-right: 45px;
+}
+
+.register-button {
+  font-family: 'Lato', sans-serif;
+  border: 1px solid #6A87C0;
+  background-color: white;
+  border-radius: 0; 
+  color: #6A87C0;
+  transition: background-color 0.3s;  
+}
+
+.register-button:hover{
+  background-color: #6A87C0 !important;
+  color: white !important;
+}
+
+.register-button:active .anticon {
+  color: white !important;
+}
+
+.content-item-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 100px;
+  margin-right: 20px;
+}
+
+.content-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 60px;
+  margin-left: 20px;
+  margin-top: 50px;
+}
+
+.content-item-mid {
+  display: flex;
+  justify-content: center; 
+}
+
+.headline {
+  font-family: 'Abril Fatface', cursive, sans-serif;
+  font-weight: bold;
+  font-size: 53px;
+}
+
+.content-text {
+  font-family: 'Lato', sans-serif;
+  text-align: justify;
+}
+
+.big-card{
+  width: 500px;
+  height: 420px;
+}
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+.gallery-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.art-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
