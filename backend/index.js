@@ -74,7 +74,11 @@ app.get('/transaction', (req, res) => {
 
 // get best selling top 3
 app.get('/transactionTop3', (req, res) => {
-    pool.query('', (error, results) => {
+    pool.query('select artwork_name, artwork_image \
+    from artworks art \
+    right join transaction tc on tc.artwork_id = art.artwork_id \
+    ORDER by tc.qty \
+    limit 3; ', (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');
