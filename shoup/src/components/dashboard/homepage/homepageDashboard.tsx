@@ -1,10 +1,9 @@
 import React from 'react';
 import { Layout, Row, Col, Card, Button } from 'antd';
-// import Navbar from '../../../assets/dashboard/navbar';
 import '../../../global.css';
-import BigCard from '../../../assets/dashboard/bigCard';
-import LineChartDashboard from '../../../assets/dashboard/linechartDashboard';
-import BarChartDashboard from '../../../assets/dashboard/barchartDashboard';
+import BigCard from '../../../assets/dashboard/homepage/bigCard';
+import LineChartDashboard from '../../../assets/dashboard/homepage/linechartDashboard';
+import BarChartDashboard from '../../../assets/dashboard/homepage/barchartDashboard';
 
 const { Content, Footer } = Layout;
 
