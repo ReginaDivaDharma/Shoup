@@ -1,10 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
+
 const pool = mysql.createPool({
-    connectionLimit: 10,
     host: 'localhost',
     user: 'root',
     password: '',
@@ -12,7 +16,6 @@ const pool = mysql.createPool({
     database: 'shoup'
 });
 
-// get all users
 app.get('/users', (req, res) => {
     pool.query('SELECT * FROM user', (error, results) => {
         if (error) {
@@ -55,7 +58,7 @@ app.get('/transaction', (req, res) => {
 
 // get best selling top 3
 app.get('/transactionTop3', (req, res) => {
-    pool.query('select artwork_name, artwork_image \
+    pool.query('select art.artwork_id,artwork_name, artwork_image \
     from artworks art \
     right join transaction tc on tc.artwork_id = art.artwork_id \
     ORDER by tc.qty \

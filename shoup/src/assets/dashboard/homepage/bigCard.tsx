@@ -1,21 +1,42 @@
 import { Carousel, Card } from 'antd';
+import React, { useState, useEffect } from 'react';
 
-const bestSellingProducts = [
-  { id: 1, name: 'Product 1', imageUrl: 'dr_stone_group.png', price: '$100' },
-  { id: 2, name: 'Product 2', imageUrl: 'image2.jpg', price: '$120' },
-  { id: 3, name: 'Product 3', imageUrl: 'image3.jpg', price: '$80' },
-];
+interface Product {
+  artwork_id: number;
+  artwork_name: string;
+  artwork_image: string;
+ 
+}
 
 const BigCard = () => {
+  const [bestSellingProducts, setBestSellingProducts] = useState<Product[]>([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/transactiontop3');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            console.log('Fetched data:', result); // Log the fetched data
+            setBestSellingProducts(result);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchData();
+}, []);
+  
   return (
     <Card className='big-card'>
     <Carousel autoplay>
-      {bestSellingProducts.map(product => (
-        <div key={product.id} style={{ position: 'relative' }}>
+      {bestSellingProducts.map(data => (
+        <div key={data.artwork_id} style={{ position: 'relative' }}>
           <img
-            src={`/${product.imageUrl}`}
-            alt={product.name}
+            src={`/assets/drawing/group/${data.artwork_image}`}
+            alt={data.artwork_name}
             style={{ width: '100%', height: '400px' }}
           />
         </div>
