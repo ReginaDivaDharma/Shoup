@@ -9,6 +9,7 @@ import Navbar from './assets/dashboard/navbar';
 
 import HomepageDashboard from './components/dashboard/homepage/homepageDashboard';
 import GalleryDashboard from './components/dashboard/gallery/galleryDashboard';
+import LoginDashboard from "./components/dashboard/login/loginDashboard";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     <Navbar />
     <Routes>
         <Route path="/" element={<HomepageDashboard />} />
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/login" element={<LoginDashboard />} />
         <Route path="/gallery" element={<GalleryDashboard />} />
     </Routes>
 

@@ -11,8 +11,6 @@ const HomepageDashboard: React.FC = () => {
   
   return (
     <Layout>
-      {/* <Navbar /> */}
-
       <Content style={{ backgroundColor: '#A8C7E6', minHeight: '540px' }}>
           <Row>
             <Col span={12}>

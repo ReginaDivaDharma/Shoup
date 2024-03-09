@@ -6,15 +6,6 @@ import { Option } from 'antd/es/mentions';
 import GalleryCard from '../../../assets/dashboard/gallery/galleryCard';
 import GalleryFilter from '../../../assets/dashboard/gallery/galleryFilter';
 
-// interface Artwork {
-//   id: number;
-//   name: string;
-//   image: string;
-//   description: string;
-//   artist: string;
-//   type: string;
-// }
-
 const GalleryPage: React.FC = () => {
 
   const [filters, setFilters] = useState<{
