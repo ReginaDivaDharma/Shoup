@@ -38,7 +38,7 @@ const GalleryFilter: React.FC<GalleryFilterProps> = ({ onFilterChange }) => {
     const handleReset = () => {
         setSearchText('');
         setSelectedArtist('');
-        setOrderBy('desc');
+        setOrderBy('asc');
         handleFilterChange();
     };
 

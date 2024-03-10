@@ -4,6 +4,7 @@ import * as echarts from 'echarts';
 const LineChartDashboard = () => {
   const [data, setData] = useState<number[]>([]);
   const [category, setCategory] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,8 +17,10 @@ const LineChartDashboard = () => {
 
         setData(artworkSoldQty);
         setCategory(artworkName);
+        setLoading(false); 
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false); 
       }
     };
   
@@ -25,46 +28,55 @@ const LineChartDashboard = () => {
   }, []);
 
   useEffect(() => {
-    const myChart = echarts.init(document.getElementById('line-chart'));
+    if (!loading && data.length > 0 && category.length > 0) {
+      const myChart = echarts.init(document.getElementById('line-chart'));
 
-    const option = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'line'
-        }
-      },
-      xAxis: {
-        type: 'category',
-        data: category,
-        // axisLabel: {
-        //   rotate: 45
-        // }
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: data,
-        type: 'line'
-      }],
-      dataZoom: [
-        {
-          type: 'slider', 
-          start: 0, 
-          end: 30 
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line'
+          }
         },
-      ]
-    };
+        xAxis: {
+          type: 'category',
+          data: category,
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: data,
+          type: 'line'
+        }],
+        dataZoom: [
+          {
+            type: 'slider', 
+            start: 0, 
+            end: 30 
+          },
+        ]
+      };
 
-    myChart.setOption(option);
+      myChart.setOption(option);
 
-    return () => {
-      myChart.dispose();
-    };
-  }, []);
+      return () => {
+        myChart.dispose();
+      };
+    }
+  }, [loading, data, category]);
 
-  return <div id="line-chart" style={{ width: '100%', height: '400px' }}></div>;
+  return (
+    <div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : data.length > 0 && category.length > 0 ? (
+        <div id="line-chart" style={{ width: '100%', height: '400px' }}></div>
+      ) : (
+        <div>No data available</div>
+      )}
+    </div>
+  );
 };
 
 export default LineChartDashboard;
