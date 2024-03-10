@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className="register-container">
         <Button type="primary" className="register-button custom-button">
-          Login
+            <Link to="/login">Login</Link>
         </Button>
       </div>
     </Header>

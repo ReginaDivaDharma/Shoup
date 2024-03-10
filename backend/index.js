@@ -85,7 +85,7 @@ app.get('/artwork', (req, res) => {
     }
 
     if (searchText) {
-        whereQuery += ` AND artwork_name LIKE '${searchText}'`;
+        whereQuery += ` AND artwork_name LIKE '%${searchText}%'`;
     }else {
         whereQuery += ''
     }

@@ -34,6 +34,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
       }, [filters]); 
     
       const fetchArtworks = () => {
+        // Construct your API URL with the filter values
         const url = `http://localhost:5000/artwork?orderBy=${filters.orderBy}&selectedArtist=${filters.selectedArtist}&searchText=${filters.searchText}`;
         
         fetch(url)
@@ -50,7 +51,8 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
                     key={artwork.artwork_id}
                     hoverable
                     style={{ width: 240, margin: 16 }}
-                    cover={<img alt={artwork.artwork_name} src={artwork.artwork_image} />}
+                    cover={<img alt={artwork.artwork_name} src={`${process.env.PUBLIC_URL}/artwork/${artwork.artwork_image}`} />}
+                    // shoup\src\assets\drawing\group\bluelock_grp.png
                     onClick={() => handleArtworkClick(artwork)}
                   >
                     <Card.Meta title={artwork.artwork_name} style={{textAlign: 'center',alignItems:'center',alignContent:'center'}}/>

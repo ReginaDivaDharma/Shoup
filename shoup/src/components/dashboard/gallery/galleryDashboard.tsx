@@ -13,14 +13,14 @@ const GalleryPage: React.FC = () => {
     selectedArtist: string | undefined;
     searchText: string;
 }>({
-    orderBy: 'desc',
+    orderBy: 'asc',
     selectedArtist: '',
     searchText: ''
 });
 
   const handleFilterChange = (newFilters: { orderBy: string; selectedArtist: string | undefined; searchText: string }) => {
     setFilters(newFilters);
-};
+  };
 
   return (
     <Layout>
