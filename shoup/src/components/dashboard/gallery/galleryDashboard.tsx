@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Modal, Button, Layout, Row, Col, Pagination, Select } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import Search from 'antd/es/input/Search';
-import { Option } from 'antd/es/mentions';
+// import Search from 'antd/es/input/Search';
+// import { Option } from 'antd/es/mentions';
 import GalleryCard from '../../../assets/dashboard/gallery/galleryCard';
 import GalleryFilter from '../../../assets/dashboard/gallery/galleryFilter';
 
@@ -13,8 +13,8 @@ const GalleryPage: React.FC = () => {
     selectedArtist: string | undefined;
     searchText: string;
 }>({
-    orderBy: 'created',
-    selectedArtist: undefined,
+    orderBy: 'desc',
+    selectedArtist: '',
     searchText: ''
 });
 
@@ -31,12 +31,13 @@ const GalleryPage: React.FC = () => {
               <h1 style={{
                 color:'#364D79', 
                 fontFamily: 'Abril Fatface', 
-                fontWeight:'bold'
+                fontWeight:'bold',
+                marginBottom: '35px'
               }}>Our Works</h1>
             </div>
           </Col>
           <Col span={24}>
-            <div className='content-item-mid'>
+            <div className='content-item-mid' style={{marginBottom: '40px'}}>
               <GalleryFilter
                 onFilterChange={handleFilterChange}
               />

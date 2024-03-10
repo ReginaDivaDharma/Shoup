@@ -1,5 +1,6 @@
 import { Card, Modal } from 'antd';
 import { useEffect, useState } from 'react';
+import GalleryModal from './galleryModal';
 
 interface Artwork {
     artwork_id: number;
@@ -33,7 +34,9 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
       }, [filters]); 
     
       const fetchArtworks = () => {
-        fetch('http://localhost:5000/artwork')
+        const url = `http://localhost:5000/artwork?orderBy=${filters.orderBy}&selectedArtist=${filters.selectedArtist}&searchText=${filters.searchText}`;
+        
+        fetch(url)
           .then(response => response.json())
           .then(data => setArtworks(data))
           .catch(error => console.error('Error:', error));
@@ -54,16 +57,11 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
                   </Card>
                 ))}
               </div>
-              <Modal
-                title={selectedArtwork ? selectedArtwork.artwork_name : ''}
+              <GalleryModal 
+                artwork={selectedArtwork}
                 visible={modalVisible}
-                onCancel={() => setModalVisible(false)}
-                footer={null}
-              >
-                <p>{selectedArtwork ? selectedArtwork.artwork_description : ''}</p>
-                <p>Made By {selectedArtwork ? selectedArtwork.artist_name : ''}</p>
-                <p>Type of Art {selectedArtwork ? selectedArtwork.artwork_type : ''}</p>
-              </Modal>
+                onClose={() => setModalVisible(false)}
+              />
     </div>
   );
 };

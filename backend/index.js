@@ -74,7 +74,31 @@ app.get('/user_sold', (req, res) => {
 
 // get artworks 
 app.get('/artwork', (req, res) => {
-    pool.query('SELECT * FROM artwork', (error, results) => {
+    const { orderBy, selectedArtist, searchText } = req.query;
+
+    let whereQuery = '';
+
+    if (selectedArtist) {
+        whereQuery += ` AND user_name = '${selectedArtist}'`;
+    } else {
+        whereQuery += ''
+    }
+
+    if (searchText) {
+        whereQuery += ` AND artwork_name LIKE '${searchText}'`;
+    }else {
+        whereQuery += ''
+    }
+
+    // Construct the base SQL query
+    let sql = `SELECT artwork_id, artwork_name, artwork_image, artwork_description, \
+    user_name as artist_name, artwork_type \
+    FROM artwork JOIN artist ON artwork.user_id = artist.user_id \
+    WHERE TRUE ${whereQuery} \
+    ORDER BY artwork_name ${orderBy} \
+    `;
+
+    pool.query(sql, (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');
@@ -83,6 +107,8 @@ app.get('/artwork', (req, res) => {
         res.json(results);
     });
 });
+
+
 
 // get artworks made over the year
 app.get('/artworks_year', (req, res) => {
