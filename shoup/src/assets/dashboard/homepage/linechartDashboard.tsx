@@ -1,7 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
 const LineChartDashboard = () => {
+  const [data, setData] = useState<number[]>([]);
+  const [category, setCategory] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/artworks_year');
+        const jsonData = await response.json();
+        
+        const artworkName = jsonData.map((item: any) => item.artwork_name);
+        const artworkSoldQty = jsonData.map((item: any) => item.sold_artwork_qty);
+
+        setData(artworkSoldQty);
+        setCategory(artworkName);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
   useEffect(() => {
     const myChart = echarts.init(document.getElementById('line-chart'));
 
@@ -14,15 +36,25 @@ const LineChartDashboard = () => {
       },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: category,
+        // axisLabel: {
+        //   rotate: 45
+        // }
       },
       yAxis: {
         type: 'value'
       },
       series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: data,
         type: 'line'
-      }]
+      }],
+      dataZoom: [
+        {
+          type: 'slider', 
+          start: 0, 
+          end: 30 
+        },
+      ]
     };
 
     myChart.setOption(option);

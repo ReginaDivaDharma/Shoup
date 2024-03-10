@@ -1,7 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
 const BarChartDashboard: React.FC = () => {
+  const [data, setData] = useState<number[]>([]);
+  const [xAxisData, setXAxisData] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/artworktype');
+        const jsonData = await response.json();
+        
+        const artworkTypes = jsonData.map((item: any) => item.artwork_type);
+        const totalQuantities = jsonData.map((item: any) => item.total_qty);
+
+        setData(totalQuantities);
+        setXAxisData(artworkTypes);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
   useEffect(() => {
     const myChart = echarts.init(document.getElementById('bar-chart'));
 
@@ -14,7 +36,7 @@ const BarChartDashboard: React.FC = () => {
       },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data: xAxisData,
         axisLabel: {
           rotate: 45
         }
@@ -23,7 +45,7 @@ const BarChartDashboard: React.FC = () => {
         type: 'value'
       },
       series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: data,
         type: 'bar'
       }]
     };
@@ -33,7 +55,7 @@ const BarChartDashboard: React.FC = () => {
     return () => {
       myChart.dispose();
     };
-  }, []);
+  }, [data, xAxisData]);
 
   return <div id="bar-chart" style={{ width: '100%', height: '400px' }}></div>;
 };

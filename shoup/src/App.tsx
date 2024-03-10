@@ -11,7 +11,6 @@ import HomepageDashboard from './components/dashboard/homepage/homepageDashboard
 import GalleryDashboard from './components/dashboard/gallery/galleryDashboard';
 import LoginDashboard from "./components/dashboard/login/loginDashboard";
 
-
 function App() {
   return (
     <BrowserRouter>

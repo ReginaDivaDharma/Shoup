@@ -5,7 +5,6 @@ interface Product {
   artwork_id: number;
   artwork_name: string;
   artwork_image: string;
- 
 }
 
 const BigCard = () => {
@@ -35,7 +34,7 @@ const BigCard = () => {
       {bestSellingProducts.map(data => (
         <div key={data.artwork_id} style={{ position: 'relative' }}>
           <img
-            src={`/assets/drawing/group/${data.artwork_image}`}
+           src={`../../drawing/group/${data.artwork_image}`} 
             alt={data.artwork_name}
             style={{ width: '100%', height: '400px' }}
           />

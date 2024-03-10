@@ -4,6 +4,7 @@ import '../../../global.css';
 import BigCard from '../../../assets/dashboard/homepage/bigCard';
 import LineChartDashboard from '../../../assets/dashboard/homepage/linechartDashboard';
 import BarChartDashboard from '../../../assets/dashboard/homepage/barchartDashboard';
+import PiechartDashboard from '../../../assets/dashboard/homepage/piechartDashboard';
 
 const { Content, Footer } = Layout;
 
@@ -38,7 +39,17 @@ const HomepageDashboard: React.FC = () => {
             </Col>
             <Col span={12}>
               <div className='content-item-right'>
-                <BigCard/>
+              <Card style={{
+                width: '500px',
+                height: 'auto',
+                margin: 'auto',
+                marginBottom: '20px'
+              }}>
+                <h1  style={{
+                  textAlign: 'center'
+                }}>Artworks sold by artists!</h1>
+                <PiechartDashboard/>
+              </Card>
               </div>
             </Col>
           </Row>
@@ -93,7 +104,7 @@ const HomepageDashboard: React.FC = () => {
                   textAlign:'center',
                   color: '#364D79',
                 }}
-                >Numbers of patreons we have served over the year 2023-2024!</h1>
+                >Numbers of artworks we have sold!</h1>
                 <LineChartDashboard/>
             </Card>
             </div>

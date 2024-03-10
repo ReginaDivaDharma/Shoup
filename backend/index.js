@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 });
 
 app.get('/users', (req, res) => {
-    pool.query('SELECT * FROM user', (error, results) => {
+    pool.query('SELECT * FROM artist', (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');
@@ -30,7 +30,7 @@ app.get('/users', (req, res) => {
 // get a specific user by ID
 app.get('/users/:id', (req, res) => {
     const userId = req.params.id;
-    pool.query('SELECT * FROM user WHERE id = ?', [userId], (error, results) => {
+    pool.query('SELECT * FROM artist WHERE id = ?', [userId], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');
@@ -44,9 +44,9 @@ app.get('/users/:id', (req, res) => {
     });
 });
 
-// get transaction transaction
-app.get('/transaction', (req, res) => {
-    pool.query('SELECT * FROM transaction', (error, results) => {
+// get merch type and sold quantity
+app.get('/artworktype', (req, res) => {
+    pool.query('SELECT artwork_type, SUM(sold_artwork_qty) AS total_qty FROM sold_artwork GROUP BY artwork_type; ', (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');
@@ -56,13 +56,13 @@ app.get('/transaction', (req, res) => {
     });
 });
 
-// get best selling top 3
-app.get('/transactionTop3', (req, res) => {
-    pool.query('select art.artwork_id,artwork_name, artwork_image \
-    from artworks art \
-    right join transaction tc on tc.artwork_id = art.artwork_id \
-    ORDER by tc.qty \
-    limit 3; ', (error, results) => {
+// get artwork sold by artist barchart
+app.get('/user_sold', (req, res) => {
+    pool.query('SELECT SUM(sart.sold_artwork_qty) AS total_sold, artist.user_name\
+    FROM sold_artwork sart\
+    JOIN artwork art ON sart.artwork_id = art.artwork_id\
+    JOIN artist ON artist.user_id = art.user_id\
+    GROUP BY artist.user_name', (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');
@@ -72,9 +72,24 @@ app.get('/transactionTop3', (req, res) => {
     });
 });
 
-// get artworks transaction
+// get artworks 
 app.get('/artwork', (req, res) => {
-    pool.query('SELECT * FROM artworks', (error, results) => {
+    pool.query('SELECT * FROM artwork', (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+// get artworks made over the year
+app.get('/artworks_year', (req, res) => {
+    pool.query(
+        'SELECT artwork_name, sold_artwork_qty\
+        from artwork art\
+        left join sold_artwork sart on art.artwork_id = sart.artwork_id', (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).send('Internal Server Error');

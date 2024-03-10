@@ -2,12 +2,12 @@ import { Card, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 
 interface Artwork {
-    id: number;
-    name: string;
-    image: string;
-    description: string;
-    artist: string;
-    type: string;
+    artwork_id: number;
+    artwork_name: string;
+    artwork_image: string;
+    artwork_description: string;
+    artist_name: string;
+    artwork_type: string;
   }
 
   interface GalleryCardProps {
@@ -32,7 +32,6 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
         fetchArtworks(); 
       }, [filters]); 
     
-      // ambil artwork
       const fetchArtworks = () => {
         fetch('http://localhost:5000/artwork')
           .then(response => response.json())
@@ -45,25 +44,25 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
               <div className='art-container'>
                 {artworks.map((artwork) => (
                   <Card
-                    key={artwork.id}
+                    key={artwork.artwork_id}
                     hoverable
                     style={{ width: 240, margin: 16 }}
-                    cover={<img alt={artwork.name} src={artwork.image} />}
+                    cover={<img alt={artwork.artwork_name} src={artwork.artwork_image} />}
                     onClick={() => handleArtworkClick(artwork)}
                   >
-                    <Card.Meta title={artwork.name} style={{textAlign: 'center'}}/>
+                    <Card.Meta title={artwork.artwork_name} style={{textAlign: 'center',alignItems:'center',alignContent:'center'}}/>
                   </Card>
                 ))}
               </div>
               <Modal
-                title={selectedArtwork ? selectedArtwork.name : ''}
+                title={selectedArtwork ? selectedArtwork.artwork_name : ''}
                 visible={modalVisible}
                 onCancel={() => setModalVisible(false)}
                 footer={null}
               >
-                <p>{selectedArtwork ? selectedArtwork.description : ''}</p>
-                <p>Made By {selectedArtwork ? selectedArtwork.artist : ''}</p>
-                <p>Type of Art {selectedArtwork ? selectedArtwork.type : ''}</p>
+                <p>{selectedArtwork ? selectedArtwork.artwork_description : ''}</p>
+                <p>Made By {selectedArtwork ? selectedArtwork.artist_name : ''}</p>
+                <p>Type of Art {selectedArtwork ? selectedArtwork.artwork_type : ''}</p>
               </Modal>
     </div>
   );
