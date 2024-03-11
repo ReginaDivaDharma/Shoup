@@ -34,7 +34,6 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
       }, [filters]); 
     
       const fetchArtworks = () => {
-        // Construct your API URL with the filter values
         const url = `http://localhost:5000/artwork?orderBy=${filters.orderBy}&selectedArtist=${filters.selectedArtist}&searchText=${filters.searchText}`;
         
         fetch(url)

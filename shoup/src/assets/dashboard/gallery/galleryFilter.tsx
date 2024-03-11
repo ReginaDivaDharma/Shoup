@@ -70,8 +70,8 @@ const GalleryFilter: React.FC<GalleryFilterProps> = ({ onFilterChange }) => {
                 onChange={(value) => setOrderBy(value)}
                 style={{ width: 200, marginRight: 16 }}
             >
-                <Option value="DESC">Descending</Option>
-                <Option value="ASC">Ascending</Option>
+                <Option value="desc">Descending</Option>
+                <Option value="asc">Ascending</Option>
             </Select>
             <Button 
             className = 'register-button custom-button'

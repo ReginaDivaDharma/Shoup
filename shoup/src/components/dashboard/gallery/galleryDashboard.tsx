@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Modal, Button, Layout, Row, Col, Pagination, Select } from 'antd';
+import React, { useState } from 'react';
+import { Layout, Row, Col, Pagination } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-// import Search from 'antd/es/input/Search';
-// import { Option } from 'antd/es/mentions';
 import GalleryCard from '../../../assets/dashboard/gallery/galleryCard';
 import GalleryFilter from '../../../assets/dashboard/gallery/galleryFilter';
 
@@ -12,11 +10,11 @@ const GalleryPage: React.FC = () => {
     orderBy: string;
     selectedArtist: string | undefined;
     searchText: string;
-}>({
+  }>({
     orderBy: 'asc',
     selectedArtist: '',
     searchText: ''
-});
+  });
 
   const handleFilterChange = (newFilters: { orderBy: string; selectedArtist: string | undefined; searchText: string }) => {
     setFilters(newFilters);
