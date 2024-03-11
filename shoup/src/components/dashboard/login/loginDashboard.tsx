@@ -1,76 +1,96 @@
-import React from 'react';
-import { Button, Checkbox, Form, type FormProps, Input, Layout, Row, Col, Card } from 'antd';
-import { Content } from 'antd/es/layout/layout';
+import React, { useState } from 'react';
+import { Button, Checkbox, Form, Input, Layout, Row, Col, Card, message } from 'antd';
 
-type FieldType = {
-  username?: string;
-  password?: string;
-  remember?: string;
+const { Content } = Layout;
+
+interface FormValues {
+  username: string;
+  password: string;
+}
+
+const mockLogin = async (values: FormValues) => {
+  const { username, password } = values;
+  const mockUsers = [
+    { userId: 1, username: 'user1', password: 'password1' },
+    { userId: 2, username: 'user2', password: 'password2' },
+  ];
+
+  const user = mockUsers.find(user => user.username === username && user.password === password);
+
+  if (user) {
+    const token: string = 'mock_token';
+    return { success: true, token };
+  } else {
+    return { success: false };
+  }
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
+const LoginDashboard = () => {
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async (values: FormValues) => {
+    setLoading(true);
+    try {
+      const { success, token } = await mockLogin(values);
+      if (success) {
+        localStorage.setItem('token', token || '');
+        message.success('Login successful');
+      } else {
+        message.error('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      message.error('Login failed. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Layout>
+      <Content style={{ backgroundColor: '#A8C7E6', minHeight: '540px' }}>
+        <Row justify="center">
+          <Col span={8}>
+            <div style={{ marginTop: '100px' }}>
+              <Card>
+                <h1 style={{ textAlign: 'center' }}>Artist Login</h1>
+                <Form
+                  name="basic"
+                  initialValues={{ remember: true }}
+                  onFinish={onFinish}
+                  autoComplete="off"
+                >
+                  <Form.Item
+                    name="username"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
+                  >
+                    <Input placeholder="Username" />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                  >
+                    <Input.Password placeholder="Password" />
+                  </Form.Item>
+
+                  <Form.Item name="remember" valuePropName="checked">
+                    <Checkbox>Remember me</Checkbox>
+                  </Form.Item>
+
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" loading={loading}>
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </div>
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
+  );
 };
-
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
-const LoginDashboard: React.FC = () => (
-  <Layout>
-    <Content style={{ backgroundColor: '#A8C7E6', minHeight: '540px' }}>
-      <Row>
-        <Col span={24}>
-        <div className='content-item-mid' style={{
-            marginTop:'100px'
-        }}>
-          <Card style={{
-            width: '500px',
-            height: 'auto'
-          }}>
-            <h1 className='content-item-mid'>Artist Login</h1>
-            <Form
-              name="basic"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              style={{ maxWidth: 600 }}
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-          </div>
-        </Col>
-      </Row>
-    </Content>
-  </Layout>
-);
 
 export default LoginDashboard;
