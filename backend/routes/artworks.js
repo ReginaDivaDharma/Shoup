@@ -161,5 +161,21 @@ router.delete('/delete/:id', (req, res) => {
     });
 });
 
+// PUT endpoint to update an existing artwork
+router.put('/update/:id', (req, res) => {
+
+    const sql = "UPDATE artwork SET artwork_name=?, artwork_image=?, artwork_description=?, artwork_type=? WHERE artwork_id=?";
+    const values = [artwork_name, artwork_image, artwork_description, artwork_type, artwork_id];
+
+    pool.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send('Artwork updated successfully');
+    });
+});
+
 // export the router
 module.exports = router;
