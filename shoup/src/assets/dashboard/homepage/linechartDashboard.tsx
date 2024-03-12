@@ -9,7 +9,7 @@ const LineChartDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/artworks_year');
+        const response = await fetch('http://localhost:5000/statistics/artworks_year');
         const jsonData = await response.json();
         
         const artworkName = jsonData.map((item: any) => item.artwork_name);

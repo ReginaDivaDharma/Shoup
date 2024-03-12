@@ -8,7 +8,7 @@ const BarChartDashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/artworktype');
+        const response = await fetch('http://localhost:5000/statistics/artworktype');
         const jsonData = await response.json();
         
         const artworkTypes = jsonData.map((item: any) => item.artwork_type);

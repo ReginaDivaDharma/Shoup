@@ -7,7 +7,7 @@ const PiechartDashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/user_sold'); 
+        const response = await fetch('http://localhost:5000/statistics/user_sold'); 
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {

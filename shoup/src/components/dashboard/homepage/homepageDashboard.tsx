@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout, Row, Col, Card, Button } from 'antd';
 import '../../../global.css';
-import BigCard from '../../../assets/dashboard/homepage/bigCard';
 import LineChartDashboard from '../../../assets/dashboard/homepage/linechartDashboard';
 import BarChartDashboard from '../../../assets/dashboard/homepage/barchartDashboard';
 import PiechartDashboard from '../../../assets/dashboard/homepage/piechartDashboard';

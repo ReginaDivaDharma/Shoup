@@ -53,18 +53,6 @@ const GalleryPage: React.FC = () => {
           </Col>
         </Row>
 
-        {/* <Row>
-          <Col span={24}>
-          <Pagination
-            current={currentPage}
-            total={sortedArtworks.length} // Use sortedArtworks.length here
-            pageSize={pageSize}
-            onChange={handlePageChange}
-            style={{ marginTop: 16, textAlign: 'center', color: '#364D79'}}
-          />
-          </Col>
-        </Row> */}
-
       </Content>
     </Layout>
   );
