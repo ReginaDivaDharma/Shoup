@@ -44,13 +44,13 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
       .catch(error => console.error('Error:', error));
   };
 
-  // Calculate total number of pages
+  // calculate total number of pages
   const totalPages = Math.ceil(artworks.length / itemsPerPage);
 
-  // Paginate items
+  // paginate items
   const paginatedArtworks = artworks.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Handle page change
+  // handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -65,7 +65,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
                 key={artwork.artwork_id}
                 hoverable
                 style={{ width: 240, margin: 16 }}
-                cover={<img alt={artwork.artwork_name} src={`${process.env.PUBLIC_URL}/artwork/${artwork.artwork_image}`} />}
+                cover={<img alt={artwork.artwork_name} src={`/artwork/${artwork.artwork_image.split('\\').pop()}`} />}  // Extracting filename from path
                 onClick={() => handleArtworkClick(artwork)}
               >
                 <Card.Meta title={artwork.artwork_name} style={{textAlign: 'center', alignItems:'center', alignContent:'center'}} />
