@@ -118,5 +118,48 @@ router.post('/new', upload.single('artwork_image'), (req, res) => {
     });
 });
 
+// DELETE endpoint to delete an artwork
+router.delete('/delete/:id', (req, res) => {
+    const artwork_id = req.params.id;
+
+    const sql = "SELECT artwork_image FROM artwork WHERE artwork_id=?";
+    const values = [artwork_id];
+
+    pool.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error retrieving artwork image path:', error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        if (results.length === 0) {
+            res.status(404).send('Artwork not found');
+            return;
+        }
+
+        const artworkImagePath = results[0].artwork_image;
+
+        // Delete the artwork from the database
+        const deleteSql = "DELETE FROM artwork WHERE artwork_id=?";
+        pool.query(deleteSql, values, (deleteError, deleteResults) => {
+            if (deleteError) {
+                console.error('Error deleting artwork:', deleteError);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+
+            // Delete the image file
+            fs.unlink(artworkImagePath, (unlinkError) => {
+                if (unlinkError) {
+                    console.error('Error deleting artwork image:', unlinkError);
+                    res.status(500).send('Internal Server Error');
+                    return;
+                }
+                res.send('Artwork deleted successfully');
+            });
+        });
+    });
+});
+
 // export the router
 module.exports = router;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Space, Card } from 'antd';
+import { Table, Space, Card, message } from 'antd';
 import type { TableProps } from 'antd';
 
 interface Artwork {
@@ -32,6 +32,24 @@ const ManageGalleryTable: React.FC = () => {
     }
   };
 
+  const handleDelete = async (artworkId: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/artworks/delete/${artworkId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        // remove the deleted artwork from the state
+        setArtworks(artworks.filter(artwork => artwork.artwork_id !== artworkId));
+        message.success('Artwork deleted successfully');
+      } else {
+        message.error('Failed to delete artwork');
+      }
+    } catch (error) {
+      console.error('Error deleting artwork:', error);
+      message.error('An error occurred while deleting artwork');
+    }
+  };
+
   const columns: TableProps<Artwork>['columns'] = [
     {
       title: 'Artwork Name',
@@ -53,8 +71,7 @@ const ManageGalleryTable: React.FC = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a>View</a>
-          <a>Delete</a>
+          <a onClick={() => handleDelete(record.artwork_id)}>Delete</a>
         </Space>
       ),
     },
@@ -62,7 +79,7 @@ const ManageGalleryTable: React.FC = () => {
 
   return (
     <Card>
-        <Table columns={columns} dataSource={artworks} />
+      <Table columns={columns} dataSource={artworks} />
     </Card>
   );
 };
