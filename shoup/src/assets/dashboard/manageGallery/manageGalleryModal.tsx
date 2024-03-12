@@ -1,6 +1,5 @@
-import React from 'react';
-import { Modal, Form, Input, Button, Upload, Select } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Modal, Form, Input, Button, Upload, Select, message } from 'antd';
 
 interface Props {
   visible: boolean;
@@ -10,32 +9,42 @@ interface Props {
 
 const ManageGalleryModal: React.FC<Props> = ({ visible, onCancel, onAdd }) => {
   const [form] = Form.useForm();
+  const [fileList, setFileList] = useState<any[]>([]);
 
-  const handleFinish = async (values: any) => {
+  const onFinish = async (values: any) => {
+    console.log('Received values:', values);
+  
     try {
       const formData = new FormData();
       formData.append('artwork_name', values.artwork_name);
       formData.append('artwork_description', values.artwork_description);
-      formData.append('user_id', values.artist_name); // Assuming the artist_name is the artist_id
       formData.append('artwork_type', values.artwork_type);
-      if (values.artwork_image) {
-        formData.append('artwork_image', values.artwork_image[0].originFileObj);
-      }
-
-      const response = await fetch('http://localhost:5000/artworksnew', {
+      formData.append('user_id', values.artist_name);
+      formData.append('artwork_image', values.artwork_image[0].originFileObj);
+  
+      const response = await fetch('http://localhost:5000/artworks/new', {
         method: 'POST',
         body: formData,
       });
-
+  
       if (response.ok) {
-        onAdd(values);
-        form.resetFields();
+        const data = await response.json();
+        console.log('Upload successful:', data);
+        message.success('Artwork uploaded successfully');
+        onAdd(values); // Notify parent component
       } else {
-        console.error('Error adding artwork:', response.statusText);
+        const errorData = await response.json();
+        console.error('Upload failed:', errorData);
+        message.error('Failed to upload artwork');
       }
     } catch (error) {
-      console.error('Error adding artwork:', error);
+      console.error('Error:', error);
+      message.error('An error occurred while uploading artwork');
     }
+  };
+
+  const onUploadChange = ({ fileList }: { fileList: any }) => {
+    setFileList(fileList);
   };
 
   const normFile = (e: any) => {
@@ -52,13 +61,37 @@ const ManageGalleryModal: React.FC<Props> = ({ visible, onCancel, onAdd }) => {
       onCancel={onCancel}
       footer={null}
     >
-      <Form form={form} onFinish={handleFinish} action="http://localhost:5000/artworksnew" method="post">
-        <Form.Item label="Artwork Name" name="artwork_name" rules={[{ required: true }]}>
+      <Form form={form} onFinish={onFinish}>
+        <Form.Item name="artwork_name" label="Artwork Name" rules={[{ required: true, message: 'Please input Name!' }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Artwork Description" name="artwork_description" rules={[{ required: true }]}>
+
+        <Form.Item
+          name="artwork_image"
+          label="Artwork Image"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          rules={[{ required: true, message: 'Please upload an image!' }]}
+        >
+          <Upload
+            beforeUpload={() => false}
+            fileList={fileList}
+            onChange={onUploadChange}
+            accept="image/*"
+            maxCount={1}
+          >
+            <Button>Upload Image</Button>
+          </Upload>
+        </Form.Item>
+
+        <Form.Item
+          name="artwork_description"
+          label="Artwork Description"
+          rules={[{ required: true, message: 'Please input description!' }]}
+        >
           <Input.TextArea />
         </Form.Item>
+
         <Form.Item
           name="artist_name"
           label="Artist Name"
@@ -69,6 +102,7 @@ const ManageGalleryModal: React.FC<Props> = ({ visible, onCancel, onAdd }) => {
             <Select.Option value="2">RottenCarrot</Select.Option>
           </Select>
         </Form.Item>
+
         <Form.Item
           name="artwork_type"
           label="Artwork Type"
@@ -81,21 +115,10 @@ const ManageGalleryModal: React.FC<Props> = ({ visible, onCancel, onAdd }) => {
             <Select.Option value="Whiteboard">Whiteboard</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item
-          name="artwork_image"
-          label="Artwork Image"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-        >
-          <Upload
-            name="artwork_image"
-            listType="picture"
-            maxCount={1}
-          >
-            <Button icon={<UploadOutlined />}>Click to upload</Button>
-          </Upload>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit">Submit</Button>
         </Form.Item>
-        <Button type="primary" htmlType="submit">Submit</Button>
       </Form>
     </Modal>
   );

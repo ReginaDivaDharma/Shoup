@@ -11,7 +11,6 @@ app.use(cors({
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true }));
 
-// Use the artworks route module
 app.use('/artworks', artworksRouter);
 app.use('/users',userRouter);
 app.use('/statistics',statisticsRouter);

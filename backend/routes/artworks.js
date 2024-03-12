@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const pool = require('./database.js');
 const router = express.Router();
+const multer = require('multer');
+const fs = require('fs');
 
 // GET all artworks
 router.get('/', (req, res) => {
@@ -35,7 +37,7 @@ router.get('/gallery', (req, res) => {
         whereQuery += ''
     }
 
-    // Construct the base SQL query
+    // construct the base SQL query
     let sql = `SELECT artwork_id, artwork_name, artwork_image, artwork_description, \
     user_name as artist_name, artwork_type \
     FROM artwork JOIN artist ON artwork.user_id = artist.user_id \
@@ -52,31 +54,44 @@ router.get('/gallery', (req, res) => {
         res.json(results);
     });
 });
+  
+// set up multer storage to make it be stored in artwork folder
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '..', '..', 'shoup', 'public', 'artwork'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+
+// ser up multer upload
+const upload = multer({ storage: storage });
 
 // POST endpoint to create a new artwork
-router.post('/new', (req, res) => {
+router.post('/new', upload.single('artwork_image'), (req, res) => {
     const { artwork_name, artwork_description, artwork_type, user_id } = req.body;
 
-    // Validate input here if needed
+    // validate input
     if (!artwork_name || !artwork_description || !artwork_type || !user_id) {
         return res.status(400).send('Missing required fields');
     }
 
-    // Check if file was uploaded
-    if (!req.files || Object.keys(req.files).length === 0) {
+    // check if file was uploaded
+    if (!req.file) {
         return res.status(400).send('No image uploaded');
     }
 
-    const artwork_image = req.files.artwork_image; // Assuming the field name is artwork_image
+    const artwork_image = req.file;
 
-    // Move the uploaded file to public folder
-    const uploadedImagePath = artwork_image.tempFilePath;
-    const publicImagePath = path.join(__dirname, 'public', 'artwork', artwork_image.name);
+    // construct destination path for renaming
+    const publicImagePath = path.join(__dirname, '..', '..', 'shoup', 'public', 'artwork', artwork_image.filename);
 
-    fs.rename(uploadedImagePath, publicImagePath, (error) => {
+    // move the uploaded file to the artwork folder
+    fs.rename(artwork_image.path, publicImagePath, (error) => {
         if (error) {
             console.error('Error moving file:', error);
-            fs.unlink(uploadedImagePath, (unlinkError) => {
+            fs.unlink(artwork_image.path, (unlinkError) => {
                 if (unlinkError) {
                     console.error('Error deleting temporary file:', unlinkError);
                 }
@@ -84,7 +99,7 @@ router.post('/new', (req, res) => {
             });
         }
 
-        // Handle database insertion
+        // Database insertion
         const sql = `INSERT INTO artwork (artwork_name, artwork_image, artwork_description, artwork_type, user_id) VALUES (?, ?, ?, ?, ?)`;
         const values = [artwork_name, publicImagePath, artwork_description, artwork_type, user_id];
 
@@ -103,5 +118,5 @@ router.post('/new', (req, res) => {
     });
 });
 
-// Export the router
+// export the router
 module.exports = router;
