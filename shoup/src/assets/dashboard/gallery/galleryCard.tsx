@@ -9,6 +9,7 @@ interface Artwork {
   artwork_description: string;
   artist_name: string;
   artwork_type: string;
+  sold_artwork_qty: number;
 }
 
 interface GalleryCardProps {

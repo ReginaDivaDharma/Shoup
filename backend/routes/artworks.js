@@ -8,7 +8,7 @@ const fs = require('fs');
 // GET all artworks
 router.get('/', (req, res) => {
     pool.query('SELECT artwork_id, artwork_name, artwork_image, artwork_description, \
-    user_name as artist_name, artwork_type \
+    user_name as artist_name, artwork_type, sold_artwork_qty \
     FROM artwork JOIN artist ON artwork.user_id = artist.user_id \
     ', (error, results) => {
         if (error) {
@@ -39,7 +39,7 @@ router.get('/gallery', (req, res) => {
 
     // construct the base SQL query
     let sql = `SELECT artwork_id, artwork_name, artwork_image, artwork_description, \
-    user_name as artist_name, artwork_type \
+    user_name as artist_name, artwork_type, sold_artwork_qty \
     FROM artwork JOIN artist ON artwork.user_id = artist.user_id \
     WHERE TRUE ${whereQuery} \
     ORDER BY artwork_name ${orderBy} \
@@ -164,7 +164,7 @@ router.delete('/delete/:id', (req, res) => {
 // PUT endpoint to update an existing artwork
 router.put('/update/:id', (req, res) => {
 
-    const sql = "UPDATE artwork SET artwork_name=?, artwork_image=?, artwork_description=?, artwork_type=? WHERE artwork_id=?";
+    const sql = "UPDATE artwork SET artwork_name=?, artwork_description=?, artwork_type=? WHERE artwork_id=?";
     const values = [artwork_name, artwork_image, artwork_description, artwork_type, artwork_id];
 
     pool.query(sql, values, (error, results) => {

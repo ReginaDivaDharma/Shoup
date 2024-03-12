@@ -8,6 +8,7 @@ interface Artwork {
   artwork_description: string;
   artist_name: string;
   artwork_type: string;
+  sold_artwork_qty: number;
 }
 
 interface GalleryModalProps {
@@ -36,6 +37,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ artwork, visible, onClose }
     { attribute: 'Description', value: artwork ? artwork.artwork_description : '' },
     { attribute: 'Made By', value: artwork ? artwork.artist_name : '' },
     { attribute: 'Type of Art', value: artwork ? artwork.artwork_type : '' },
+    { attribute: 'Quantity Sold', value: artwork ? artwork.sold_artwork_qty : '' },
   ];
 
   return (
