@@ -1,5 +1,5 @@
 # Key Web Features
-The website Shoup has several pages function such as homepage, gallery, and artist for now. 
+The website Shoup has several pages function such as homepage, gallery, and Manage Gallery for now. 
 
 # Backend
 the backend is made with node.js and mysql (mariadb) server with XAMPP, here i have index.js to deal with routings in the backend folder, while within the routes folder i have several files containing APIs for each functional page, i connect the database with database.js file, where i use port 5000
