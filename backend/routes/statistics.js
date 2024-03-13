@@ -32,7 +32,7 @@ router.get('/user_sold', (req, res) => {
 // GET artworks made over the year
 router.get('/artworks_year', (req, res) => {
     pool.query(
-        'SELECT artwork_name, COALESCE(sold_artwork_qty, 0)\
+        'SELECT artwork_name, COALESCE(sold_artwork_qty, 0) as sold_artwork_qty\
         from artwork', (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
