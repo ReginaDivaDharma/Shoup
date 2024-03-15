@@ -15,7 +15,7 @@ router.get('/artworktype', (req, res) => {
     });
 });
 
-// GET artwork sold by artist barchart
+// GET artwork sold by artist piechart
 router.get('/user_sold', (req, res) => {
     pool.query('SELECT SUM(art.sold_artwork_qty) AS total_sold, artist.user_name \
     FROM artwork art JOIN artist ON artist.user_id = art.user_id \
@@ -29,7 +29,7 @@ router.get('/user_sold', (req, res) => {
     });
 });
 
-// GET artworks made over the year
+// GET artworks sold based on names
 router.get('/artworks_year', (req, res) => {
     pool.query(
         'SELECT artwork_name, COALESCE(sold_artwork_qty, 0) as sold_artwork_qty\

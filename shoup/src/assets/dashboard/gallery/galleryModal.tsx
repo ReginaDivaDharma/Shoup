@@ -32,7 +32,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ artwork, visible, onClose }
   ];
 
   const modalData = [
-    { attribute: 'Artwork Image', value: artwork ? <img src={`${process.env.PUBLIC_URL}/artwork/${artwork.artwork_image}`} alt={artwork.artwork_name} style={{ maxWidth: '100%', height: 'auto' }} /> : null },
+    { attribute: 'Artwork Image', value: artwork ? <img src={`/artwork/${artwork.artwork_image.split('\\').pop()}`} alt={artwork.artwork_name} style={{ maxWidth: '100%', height: 'auto' }} /> : null },
     { attribute: 'Name', value: artwork ? artwork.artwork_name : '' },
     { attribute: 'Description', value: artwork ? artwork.artwork_description : '' },
     { attribute: 'Made By', value: artwork ? artwork.artist_name : '' },

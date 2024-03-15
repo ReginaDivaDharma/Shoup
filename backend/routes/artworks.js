@@ -65,7 +65,7 @@ const storage = multer.diskStorage({
     }
 });
 
-// ser up multer upload
+// set up multer upload
 const upload = multer({ storage: storage });
 
 // POST endpoint to create a new artwork
@@ -99,7 +99,7 @@ router.post('/new', upload.single('artwork_image'), (req, res) => {
             });
         }
 
-        // Database insertion
+        // Artwork insertion
         const sql = `INSERT INTO artwork (artwork_name, artwork_image, artwork_description, artwork_type, user_id) VALUES (?, ?, ?, ?, ?)`;
         const values = [artwork_name, publicImagePath, artwork_description, artwork_type, user_id];
 

@@ -45,9 +45,6 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
       .catch(error => console.error('Error:', error));
   };
 
-  // calculate total number of pages
-  const totalPages = Math.ceil(artworks.length / itemsPerPage);
-
   // paginate items
   const paginatedArtworks = artworks.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
