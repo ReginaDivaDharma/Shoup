@@ -36,13 +36,18 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ filters }) => {
     fetchArtworks();
   }, [filters]);
 
-  const fetchArtworks = () => {
-    const url = `http://localhost:5000/artworks/gallery?orderBy=${filters.orderBy}&selectedArtist=${filters.selectedArtist}&searchText=${filters.searchText}`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => setArtworks(data))
-      .catch(error => console.error('Error:', error));
+  const fetchArtworks = async () =>  {
+    try {
+      const response = await fetch(`http://localhost:5000/artworks/gallery?orderBy=${filters.orderBy}&selectedArtist=${filters.selectedArtist}&searchText=${filters.searchText}`);
+      if (response.ok) {
+        const data = await response.json();
+        setArtworks(data);
+      } else {
+        console.error('Error fetching artworks:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching artworks:', error);
+    }
   };
 
   // paginate items

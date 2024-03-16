@@ -30,7 +30,7 @@ const GalleryPage: React.FC = () => {
                 color:'#364D79', 
                 fontFamily: 'Abril Fatface', 
                 fontWeight:'bold',
-                marginBottom: '35px'
+                marginBottom: '15px'
               }}>Our Works</h1>
             </div>
           </Col>

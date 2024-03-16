@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// GET all artworks with filter
 router.get('/gallery', (req, res) => {
     const { orderBy, selectedArtist, searchText } = req.query;
 

@@ -11,16 +11,24 @@ interface Artwork {
   artwork_type: string;
 }
 
-const ManageGalleryTable: React.FC = () => {
+interface ManageGalleryTableProps {
+  filters: {
+    orderBy: string;
+    selectedArtist: string | undefined;
+    searchText: string;
+  };
+}
+
+const ManageGalleryTable: React.FC<ManageGalleryTableProps> = ({ filters }) => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
 
   useEffect(() => {
     fetchArtworks();
-  }, []);
+  }, [filters]);
 
   const fetchArtworks = async () => {
     try {
-      const response = await fetch('http://localhost:5000/artworks');
+      const response = await fetch(`http://localhost:5000/artworks/gallery?orderBy=${filters.orderBy}&selectedArtist=${filters.selectedArtist}&searchText=${filters.searchText}`);
       if (response.ok) {
         const data = await response.json();
         setArtworks(data);
@@ -54,7 +62,7 @@ const ManageGalleryTable: React.FC = () => {
     {
       title: 'Artwork Name',
       dataIndex: 'artwork_name',
-      key: 'artwork_name'
+      key: 'artwork_name',
     },
     {
       title: 'Artist Name',
