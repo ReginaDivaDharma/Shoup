@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Modal } from 'antd';
-import ManageGalleryTable from '../../../assets/dashboard/manageGallery/manageGalleryTable';
-import ManageGalleryModal from '../../../assets/dashboard/manageGallery/manageGalleryModal';
+import ManageGalleryTable from '../../assets/components/manageGallery/manageGalleryTable';
+import ManageGalleryModal from '../../assets/components/manageGallery/manageGalleryModal';
 
 const GalleryManage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);

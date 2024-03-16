@@ -3,12 +3,12 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Navbar from './assets/dashboard/navbar';
+import Navbar from './assets/components/navbar';
 
-import HomepageDashboard from './components/dashboard/homepage/homepageDashboard';
-import GalleryDashboard from './components/dashboard/gallery/galleryDashboard';
-import LoginDashboard from "./components/dashboard/login/loginDashboard";
-import ManageGallery from "./components/dashboard/manageGallery/manageGallery";
+import HomepageDashboard from './dashboard/homepage/homepageDashboard';
+import GalleryDashboard from './dashboard/gallery/galleryDashboard';
+import LoginDashboard from "./dashboard/login/loginDashboard";
+import ManageGallery from "./dashboard/manageGallery/manageGallery";
 
 
 function App() {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Layout, Row, Col, Card, Button } from 'antd';
-import '../../../global.css';
-import LineChartDashboard from '../../../assets/dashboard/homepage/linechartDashboard';
-import BarChartDashboard from '../../../assets/dashboard/homepage/barchartDashboard';
-import PiechartDashboard from '../../../assets/dashboard/homepage/piechartDashboard';
+import '../../global.css';
+import LineChartDashboard from '../../assets/components/homepage/linechartDashboard';
+import BarChartDashboard from '../../assets/components/homepage/barchartDashboard';
+import PiechartDashboard from '../../assets/components/homepage/piechartDashboard';
 
 const { Content, Footer } = Layout;
 

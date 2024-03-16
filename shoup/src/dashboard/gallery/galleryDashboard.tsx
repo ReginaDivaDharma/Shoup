@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Layout, Row, Col, Pagination } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import GalleryCard from '../../../assets/dashboard/gallery/galleryCard';
-import GalleryFilter from '../../../assets/dashboard/gallery/galleryFilter';
+import GalleryCard from '../../assets/components/gallery/galleryCard';
+import GalleryFilter from '../../assets/components/gallery/galleryFilter';
 
 const GalleryPage: React.FC = () => {
 
