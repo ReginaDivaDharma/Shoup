@@ -42,7 +42,8 @@ const BarChartDashboard: React.FC = () => {
         }
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        name: 'Total Sold'
       },
       series: [{
         data: data,
