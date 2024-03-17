@@ -1,62 +1,70 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Upload, Select, message } from 'antd';
+import React, { useEffect } from 'react';
+import { Modal, Form, Input, Button, Select, message } from 'antd';
 
-interface ManageGalleryEditProps {
-  visible: boolean;
-  onCancel: () => void;
-  onAdd: (values: any) => void;
+interface Artwork {
+  artwork_id: number;
+  artwork_name: string;
+  artwork_description: string;
+  artist_name: string;
+  artwork_type: string;
+  sold_artwork_qty: number;
 }
 
-const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ visible, onCancel, onAdd }) => {
+interface ManageGalleryEditProps {
+  onClose: () => void;
+  artwork: Artwork | null;
+  visible: boolean;
+}
+
+const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, visible, onClose }) => {
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (artwork) {
+      form.setFieldsValue({
+        artwork_name: artwork.artwork_name,
+        artwork_description: artwork.artwork_description,
+        artwork_type: artwork.artwork_type,
+        sold_artwork_qty: artwork.sold_artwork_qty,
+      });
+    }
+  }, [artwork, form]);
 
   const onFinish = async (values: any) => {
-    console.log('Received values:', values);
-  
     try {
       const formData = new FormData();
+      formData.append('artwork_id', artwork ? String(artwork.artwork_id) : '');
       formData.append('artwork_name', values.artwork_name);
       formData.append('artwork_description', values.artwork_description);
       formData.append('artwork_type', values.artwork_type);
-  
-      const response = await fetch(`http://localhost:5000/artworks/update/:id`, {
-        method: 'POST',
+      formData.append('sold_artwork_qty', values.sold_artwork_qty);
+
+      const response = await fetch(`http://localhost:5000/artworks/update/${artwork?.artwork_id}`, {
+        method: 'PUT',
         body: formData,
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-        console.log('Upload successful:', data);
-        message.success('Artwork uploaded successfully');
-        onAdd(values); 
+        console.log('Update successful:', data);
+        message.success('Artwork updated successfully');
+        onClose();
       } else {
         const errorData = await response.json();
-        console.error('Upload failed:', errorData);
-        message.error('Failed to upload artwork');
+        console.error('Update failed:', errorData);
+        message.error('Failed to update artwork');
       }
     } catch (error) {
       console.error('Error:', error);
-      message.error('An error occurred while uploading artwork');
+      message.error('An error occurred while updating artwork');
     }
-  };
-
-  const onUploadChange = ({ fileList }: { fileList: any }) => {
-    setFileList(fileList);
-  };
-
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
   };
 
   return (
     <Modal
-      title="Edit Artwork"
+      title={artwork ? artwork.artwork_name : ''}
       visible={visible}
-      onCancel={onCancel}
+      onCancel={onClose}
       footer={null}
     >
       <Form form={form} onFinish={onFinish}>

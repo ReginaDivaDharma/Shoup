@@ -29,9 +29,11 @@ const HomepageDashboard: React.FC = () => {
               providing valuable insights into the techniques, themes, and trends present in 
               \the showcased artworks.
               </p>
-              {/* <div>
+              {/* <div style={{
+                
+              }}>
                 <Button type="primary" className="custom-button">
-                  Login
+                  Go to Gallery
                 </Button>
               </div> */}
             </div>

@@ -31,7 +31,7 @@ const ManageGalleryModal: React.FC<ManageGalleryModalProps> = ({ visible, onCanc
         const data = await response.json();
         console.log('Upload successful:', data);
         message.success('Artwork uploaded successfully');
-        onAdd(values); // Notify parent component
+        onAdd(values); 
       } else {
         const errorData = await response.json();
         console.error('Upload failed:', errorData);

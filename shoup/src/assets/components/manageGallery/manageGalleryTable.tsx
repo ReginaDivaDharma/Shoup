@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Space, Card, message } from 'antd';
 import type { TableProps } from 'antd';
+import ManageGalleryEditModal from './manageGalleryEditModal';
 
 interface Artwork {
   artwork_id: number;
   artwork_name: string;
-  artwork_image: string;
+  // artwork_image: string;
   artwork_description: string;
   artist_name: string;
   artwork_type: string;
+  sold_artwork_qty: number;
 }
 
 interface ManageGalleryTableProps {
@@ -21,6 +23,13 @@ interface ManageGalleryTableProps {
 
 const ManageGalleryTable: React.FC<ManageGalleryTableProps> = ({ filters }) => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const handleArtworkClick = (artwork: any) => {
+    setSelectedArtwork(artwork);
+    setModalVisible(true);
+  };
 
   useEffect(() => {
     fetchArtworks();
@@ -79,6 +88,7 @@ const ManageGalleryTable: React.FC<ManageGalleryTableProps> = ({ filters }) => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
+          {/* <a onClick={() => handleArtworkClick(record)}>Edit</a> */}
           <a onClick={() => handleDelete(record.artwork_id)}>Delete</a>
         </Space>
       ),
@@ -88,6 +98,11 @@ const ManageGalleryTable: React.FC<ManageGalleryTableProps> = ({ filters }) => {
   return (
     <Card>
       <Table columns={columns} dataSource={artworks} />
+      <ManageGalleryEditModal
+        artwork={selectedArtwork}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </Card>
   );
 };

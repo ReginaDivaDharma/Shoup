@@ -45,9 +45,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ artwork, visible, onClose }
       title={artwork ? artwork.artwork_name : ''}
       visible={visible}
       onCancel={onClose}
-      footer={[
-        
-      ]}
+      footer={null}
     >
       <Table
         dataSource={modalData}
