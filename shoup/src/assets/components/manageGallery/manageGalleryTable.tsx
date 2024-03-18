@@ -88,7 +88,7 @@ const ManageGalleryTable: React.FC<ManageGalleryTableProps> = ({ filters }) => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a onClick={() => handleArtworkClick(record)}>Edit</a> */}
+          <a onClick={() => handleArtworkClick(record)}>Edit</a>
           <a onClick={() => handleDelete(record.artwork_id)}>Delete</a>
         </Space>
       ),

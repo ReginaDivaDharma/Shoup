@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, Button, Select, message } from 'antd';
+import { Modal, Form, Input, Button, Select, message, InputNumber } from 'antd';
 
 interface Artwork {
   artwork_id: number;
@@ -22,10 +22,10 @@ const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, vis
   useEffect(() => {
     if (artwork) {
       form.setFieldsValue({
-        artwork_name: artwork.artwork_name,
-        artwork_description: artwork.artwork_description,
-        artwork_type: artwork.artwork_type,
-        sold_artwork_qty: artwork.sold_artwork_qty,
+        artwork_name: artwork.artwork_name || '',
+        artwork_description: artwork.artwork_description || '',
+        artwork_type: artwork.artwork_type || '',
+        sold_artwork_qty: artwork.sold_artwork_qty || 0,
       });
     }
   }, [artwork, form]);
@@ -33,13 +33,18 @@ const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, vis
   const onFinish = async (values: any) => {
     try {
       const formData = new FormData();
-      formData.append('artwork_id', artwork ? String(artwork.artwork_id) : '');
       formData.append('artwork_name', values.artwork_name);
       formData.append('artwork_description', values.artwork_description);
       formData.append('artwork_type', values.artwork_type);
       formData.append('sold_artwork_qty', values.sold_artwork_qty);
 
-      const response = await fetch(`http://localhost:5000/artworks/update/${artwork?.artwork_id}`, {
+      if (!artwork) {
+        console.error('Artwork data is missing.');
+        message.error('An error occurred while updating artwork. Please try again.');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/artworks/update/${artwork.artwork_id}`, {
         method: 'PUT',
         body: formData,
       });
@@ -52,11 +57,11 @@ const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, vis
       } else {
         const errorData = await response.json();
         console.error('Update failed:', errorData);
-        message.error('Failed to update artwork');
+        message.error('Failed to update artwork. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
-      message.error('An error occurred while updating artwork');
+      message.error('An error occurred while updating artwork. Please try again.');
     }
   };
 
@@ -91,6 +96,14 @@ const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, vis
             <Select.Option value="Standee">Standee</Select.Option>
             <Select.Option value="Whiteboard">Whiteboard</Select.Option>
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="sold_artwork_qty"
+          label="Sold Quantity"
+          rules={[{ required: true, message: 'Please input quantity!' }]}
+        >
+          <InputNumber min={1} />
         </Form.Item>
 
         <Form.Item>

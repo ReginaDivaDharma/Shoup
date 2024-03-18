@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Table, Button } from 'antd';
+import { Modal, Table } from 'antd';
 
 interface Artwork {
   artwork_id: number;
