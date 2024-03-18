@@ -13,7 +13,7 @@ const ManageGalleryAddModal: React.FC<ManageGalleryAddModalProps> = ({ visible, 
 
   const onFinish = async (values: any) => {
     console.log('Received values:', values);
-    
+  
     try {
       const formData = new FormData();
       formData.append('artwork_name', values.artwork_name);
@@ -28,11 +28,13 @@ const ManageGalleryAddModal: React.FC<ManageGalleryAddModalProps> = ({ visible, 
       });
   
       if (response.ok) {
-        console.log('Upload successful');
+        const data = await response.json();
+        console.log('Upload successful:', data);
         message.success('Artwork uploaded successfully');
         onAdd(values); 
       } else {
-        console.error('Upload failed:', response.statusText);
+        const errorData = await response.json();
+        console.error('Upload failed:', errorData);
         message.error('Failed to upload artwork');
       }
     } catch (error) {
@@ -40,7 +42,7 @@ const ManageGalleryAddModal: React.FC<ManageGalleryAddModalProps> = ({ visible, 
       message.error('An error occurred while uploading artwork');
     }
   };
-  
+
   const onUploadChange = ({ fileList }: { fileList: any }) => {
     setFileList(fileList);
   };

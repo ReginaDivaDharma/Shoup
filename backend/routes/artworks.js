@@ -75,12 +75,12 @@ router.post('/new', upload.single('artwork_image'), (req, res) => {
 
     // validate input
     if (!artwork_name || !artwork_description || !artwork_type || !user_id) {
-        return res.status(400).send('Missing required fields');
+        return res.status(400).json({ error: 'Missing required fields' });
     }
 
     // check if file was uploaded
     if (!req.file) {
-        return res.status(400).send('No image uploaded');
+        return res.status(400).json({ error: 'No image uploaded' });
     }
 
     const artwork_image = req.file;
@@ -96,7 +96,7 @@ router.post('/new', upload.single('artwork_image'), (req, res) => {
                 if (unlinkError) {
                     console.error('Error deleting temporary file:', unlinkError);
                 }
-                return res.status(500).send('Internal Server Error');
+                return res.status(500).json({ error: 'Internal Server Error' });
             });
         }
 
@@ -111,10 +111,10 @@ router.post('/new', upload.single('artwork_image'), (req, res) => {
                     if (unlinkError) {
                         console.error('Error deleting uploaded file:', unlinkError);
                     }
-                    return res.status(500).send('Internal Server Error');
+                    return res.status(500).json({ error: 'Internal Server Error' });
                 });
             }
-            res.status(201).send('Artwork created successfully');
+            res.status(201).json({ message: 'Artwork created successfully' });
         });
     });
 });
@@ -129,13 +129,11 @@ router.delete('/delete/:id', (req, res) => {
     pool.query(sql, values, (error, results) => {
         if (error) {
             console.error('Error retrieving artwork image path:', error);
-            res.status(500).send('Internal Server Error');
-            return;
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         if (results.length === 0) {
-            res.status(404).send('Artwork not found');
-            return;
+            return res.status(404).json({ error: 'Artwork not found' });
         }
 
         const artworkImagePath = results[0].artwork_image;
@@ -145,27 +143,26 @@ router.delete('/delete/:id', (req, res) => {
         pool.query(deleteSql, values, (deleteError, deleteResults) => {
             if (deleteError) {
                 console.error('Error deleting artwork:', deleteError);
-                res.status(500).send('Internal Server Error');
-                return;
+                return res.status(500).json({ error: 'Internal Server Error' });
             }
 
             // Delete the image file
             fs.unlink(artworkImagePath, (unlinkError) => {
                 if (unlinkError) {
                     console.error('Error deleting artwork image:', unlinkError);
-                    res.status(500).send('Internal Server Error');
-                    return;
+                    return res.status(500).json({ error: 'Internal Server Error' });
                 }
-                res.send('Artwork deleted successfully');
+                res.json({ message: 'Artwork deleted successfully' });
             });
         });
     });
 });
 
+
 // PUT endpoint to update an existing artwork
 router.put('/update/:id', (req, res) => {
     const { artwork_name, artwork_description, artwork_type, sold_artwork_qty } = req.body;
-    const artwork_id = req.params.id
+    const artwork_id = req.params.id;
 
     const sql = "UPDATE artwork SET artwork_name=?, artwork_description=?, artwork_type=?, sold_artwork_qty=? WHERE artwork_id=?";
     const values = [artwork_name, artwork_description, artwork_type, sold_artwork_qty, artwork_id];
@@ -173,10 +170,9 @@ router.put('/update/:id', (req, res) => {
     pool.query(sql, values, (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
-            res.status(500).send('Internal Server Error');
-            return;
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
-        res.send('Artwork updated successfully');
+        res.json({ message: 'Artwork updated successfully' });
     });
 });
 

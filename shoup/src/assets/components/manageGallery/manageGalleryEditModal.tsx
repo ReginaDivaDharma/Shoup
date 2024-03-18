@@ -32,35 +32,36 @@ const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, vis
 
   const onFinish = async (values: any) => {
     try {
-      const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          artwork_name: values.artwork_name,
-          artwork_description: values.artwork_description,
-          artwork_type: values.artwork_type,
-          sold_artwork_qty: values.sold_artwork_qty,
-        }),
-      };
-  
-      if (!artwork) {
-        console.error('Artwork data is missing.');
-        message.error('An error occurred while updating artwork. Please try again.');
-        return;
-      }
-  
-      const response = await fetch(`http://localhost:5000/artworks/update/${artwork.artwork_id}`, requestOptions);
-  
-      if (response.ok) {
-        message.success('Artwork updated successfully');
-        onClose();
-      } else {
-        console.error('Failed to update artwork:', response.statusText);
-        message.error('Failed to update artwork. Please try again.');
-      }
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                artwork_name: values.artwork_name,
+                artwork_description: values.artwork_description,
+                artwork_type: values.artwork_type,
+                sold_artwork_qty: values.sold_artwork_qty,
+            }),
+        };
+
+        if (!artwork) {
+            console.error('Artwork data is missing.');
+            message.error('An error occurred while updating artwork. Please try again.');
+            return;
+        }
+
+        const response = await fetch(`http://localhost:5000/artworks/update/${artwork.artwork_id}`, requestOptions);
+
+        if (response.ok) {
+            const data = await response.json();
+            message.success('Artwork updated successfully');
+            onClose();
+        } else {
+            console.error('Failed to update artwork:', response.statusText);
+            message.error('Failed to update artwork. Please try again.');
+        }
     } catch (error) {
-      console.error('Error:', error);
-      message.error('An error occurred while updating artwork. Please try again.');
+        console.error('Error:', error);
+        message.error('An error occurred while updating artwork. Please try again.');
     }
   };
 
