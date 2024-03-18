@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Upload, Select, message } from 'antd';
 
-interface ManageGalleryModalProps {
+interface ManageGalleryAddModalProps {
   visible: boolean;
   onCancel: () => void;
   onAdd: (values: any) => void;
 }
 
-const ManageGalleryModal: React.FC<ManageGalleryModalProps> = ({ visible, onCancel, onAdd }) => {
+const ManageGalleryAddModal: React.FC<ManageGalleryAddModalProps> = ({ visible, onCancel, onAdd }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
 
@@ -124,4 +124,4 @@ const ManageGalleryModal: React.FC<ManageGalleryModalProps> = ({ visible, onCanc
   );
 };
 
-export default ManageGalleryModal;
+export default ManageGalleryAddModal;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, Col, Form, Input, Layout, Modal, Row } from 'antd';
 import ManageGalleryTable from '../../assets/components/manageGallery/manageGalleryTable';
-import ManageGalleryModal from '../../assets/components/manageGallery/manageGalleryModal';
+import ManageGalleryAddModal from '../../assets/components/manageGallery/manageGalleryAddModal';
 import ManageGalleryFilter from '../../assets/components/manageGallery/manageGalleryFilter';
 
 const GalleryManage: React.FC = () => {
@@ -49,7 +49,7 @@ const GalleryManage: React.FC = () => {
               />
               </div> 
             </div>
-            <ManageGalleryModal
+            <ManageGalleryAddModal
               visible={isModalVisible}
               onCancel={() => setIsModalVisible(false)}
               onAdd={handleAddArtwork}
