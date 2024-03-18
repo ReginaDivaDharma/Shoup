@@ -11,4 +11,4 @@ Within the homepage section of the project, i have several charts showing what t
 Within the gallery i have shown several products or drawings using a database i have created called shoup, here user can also click the drawing and a modal will pop up to explain the image's details
 
 # Manage Gallery
-Within manage gallery page i have a table component showing what kinds of artwork there is available, we can delete and add artwork. If user clicks on add artwork a modal will pop up and they will be asked to insert their datas, this data will be inserted into the database, but for the image it will be uploaded to /public/artwork, deletion for artwork data is the same
+Within manage gallery page i have a table component showing what kinds of artwork there is available, we can delete and add artwork. If user clicks on add artwork a modal will pop up and they will be asked to insert their datas, this data will be inserted into the database, but for the image it will be uploaded to /public/artwork, deletion for artwork data is the same. User can now edit their artwork datas 
