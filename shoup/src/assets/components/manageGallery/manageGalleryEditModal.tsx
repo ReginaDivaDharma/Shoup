@@ -32,31 +32,30 @@ const ManageGalleryEditModal: React.FC<ManageGalleryEditProps> = ({ artwork, vis
 
   const onFinish = async (values: any) => {
     try {
-      const formData = new FormData();
-      formData.append('artwork_name', values.artwork_name);
-      formData.append('artwork_description', values.artwork_description);
-      formData.append('artwork_type', values.artwork_type);
-      formData.append('sold_artwork_qty', values.sold_artwork_qty);
-
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          artwork_name: values.artwork_name,
+          artwork_description: values.artwork_description,
+          artwork_type: values.artwork_type,
+          sold_artwork_qty: values.sold_artwork_qty,
+        }),
+      };
+  
       if (!artwork) {
         console.error('Artwork data is missing.');
         message.error('An error occurred while updating artwork. Please try again.');
         return;
       }
-
-      const response = await fetch(`http://localhost:5000/artworks/update/${artwork.artwork_id}`, {
-        method: 'PUT',
-        body: formData,
-      });
-
+  
+      const response = await fetch(`http://localhost:5000/artworks/update/${artwork.artwork_id}`, requestOptions);
+  
       if (response.ok) {
-        const data = await response.json();
-        console.log('Update successful:', data);
         message.success('Artwork updated successfully');
         onClose();
       } else {
-        const errorData = await response.json();
-        console.error('Update failed:', errorData);
+        console.error('Failed to update artwork:', response.statusText);
         message.error('Failed to update artwork. Please try again.');
       }
     } catch (error) {
