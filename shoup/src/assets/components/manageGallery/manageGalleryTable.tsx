@@ -6,7 +6,7 @@ import ManageGalleryEditModal from './manageGalleryEditModal';
 interface Artwork {
   artwork_id: number;
   artwork_name: string;
-  // artwork_image: string;
+  artwork_image: string;
   artwork_description: string;
   artist_name: string;
   artwork_type: string;
