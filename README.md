@@ -1,11 +1,11 @@
 # Key Web Features
-The website Shoup has several pages function such as homepage, gallery, and Manage Gallery for now. 
+The main objective of this project is to make a website presenting datas of sales from an online shop, their statistics, etc. The website Shoup has several pages function such as homepage, gallery, and Manage Gallery for now. Key users are the owners and admins so they can see how well their sales are going
 
 # Backend
 the backend is made with node.js and mysql (mariadb) server with XAMPP, here i have index.js to deal with routings in the backend folder, while within the routes folder i have several files containing APIs for each functional page, i connect the database with database.js file, where i use port 5000
 
 # Homepage
-Within the homepage section of the project, i have several charts showing what type of fanmerch i make and their analytics, as in what games they are from, inspiration, type of merch, which ones are the best selling according to the data etc, i have several endpoints and im using several custom-made components here as well like cards, barchart,etc
+Within the homepage section of the project, i have several charts showing what type of fanmerch i make and their analytics, as in what games they are from, inspiration, type of merch, which ones are the best selling according to the data etc, i have several endpoints and im using several custom-made components here as well like cards, barchart,etc. I am using ANTD and E-Charts to help me with these components
 
 # Gallery
 Within the gallery i have shown several products or drawings using a database i have created called shoup, here user can also click the drawing and a modal will pop up to explain the image's details
